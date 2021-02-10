@@ -24,7 +24,7 @@ def login():
         else:
             flash('User does not exist.', category='error')
 
-    return render_template('login.html')
+    return render_template('login.html', user=current_user)
 
 
 @auth.route('/logout')
@@ -59,8 +59,8 @@ def sign_up():
                             password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
-            login_user(user, remember=True)
+            login_user(new_user, remember=True)
             flash("Account created!", category='success')
             return redirect(url_for('views.homepage'))
 
-    return render_template('sign_up.html')
+    return render_template('sign_up.html', user=current_user)
